@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 10 ene 2024 18:09:09 by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="ad_videojuegos" name="model.Juegos" optimistic-lock="none" table="juegos">
+        <id name="idJuego" type="java.lang.Integer">
+            <column name="id_juego"/>
+            <generator class="identity"/>
+        </id>
+        <many-to-one class="model.Usuarios" fetch="select" name="usuarios">
+            <column name="id_usuario"/>
+        </many-to-one>
+        <property name="ISBN" type="string">
+            <column length="50" name="ISBN" not-null="true"/>
+        </property>
+        <property name="nombreJuego" type="string">
+            <column length="50" name="nombre_juego" not-null="true"/>
+        </property>
+        <property name="plataforma" type="string">
+            <column length="40" name="Plataforma" not-null="true"/>
+        </property>
+        <property name="precio" type="double">
+            <column name="Precio" not-null="true" precision="22" scale="0"/>
+        </property>
+        <set fetch="select" inverse="true" lazy="true" name="ventases" table="ventas">
+            <key>
+                <column name="id_juego" not-null="true"/>
+            </key>
+            <one-to-many class="model.Ventas"/>
+        </set>
+    </class>
+</hibernate-mapping>

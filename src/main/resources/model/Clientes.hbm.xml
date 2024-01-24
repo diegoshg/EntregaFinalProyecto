@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 10 ene 2024 18:09:09 by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="ad_videojuegos" name="model.Clientes" optimistic-lock="none" table="clientes">
+        <id name="idCliente" type="java.lang.Integer">
+            <column name="id_cliente"/>
+            <generator class="identity"/>
+        </id>
+        <many-to-one class="model.Usuarios" fetch="select" name="usuarios">
+            <column name="id_usuario"/>
+        </many-to-one>
+        <property name="nombreCliente" type="string">
+            <column length="40" name="nombre_cliente" not-null="true"/>
+        </property>
+        <set fetch="select" inverse="true" lazy="true" name="ventases" table="ventas">
+            <key>
+                <column name="id_cliente" not-null="true"/>
+            </key>
+            <one-to-many class="model.Ventas"/>
+        </set>
+    </class>
+</hibernate-mapping>

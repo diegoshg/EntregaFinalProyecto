@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 10 ene 2024 18:09:09 by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="ad_videojuegos" name="model.Ventas" optimistic-lock="none" table="ventas">
+        <id name="idVenta" type="java.lang.Integer">
+            <column name="id_venta"/>
+            <generator class="identity"/>
+        </id>
+        <many-to-one class="model.Juegos" fetch="select" name="juegos">
+            <column name="id_juego" not-null="true"/>
+        </many-to-one>
+        <many-to-one class="model.Clientes" fetch="select" name="clientes">
+            <column name="id_cliente" not-null="true"/>
+        </many-to-one>
+        <property name="precioVenta" type="double">
+            <column name="precio_venta" not-null="true" precision="22" scale="0"/>
+        </property>
+        <property name="fechaVenta" type="date">
+            <column length="10" name="fecha_venta" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>
