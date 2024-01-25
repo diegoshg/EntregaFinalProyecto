@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.swing.table.DefaultTableModel;
+import model.Juegos;
+import model.Ventas;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -79,6 +81,19 @@ public class ControladorListar {
         return null;
     }
     
+   public static Ventas obtenerJuegoporNombre(String nombre_juego){
+    Session session = HibernateUtil.getSessionFactory().openSession();
+    Transaction transaction = null;
+      try {
+            transaction = session.beginTransaction();
+            String hqlJuego = "Select j.idJuego, c.idCliente FROM Juegos j, Ventas v, Clientes c WHERE v.juegos.idJuego = : j.idJuego and v.clientes.idCliente = :c.idCliente";
+            Ventas queryJuego = session.createQuery(hqlJuego, Ventas.class).setParameter("nombre_juego", nombre_juego).getSingleResult();
+            return queryJuego;
+      } catch (Exception e) {
+      }
+      return null;
+  }
+    
     /**
      * Este metodo elimina un registro de la tabla ventas tomando como referencia el nombre del juego y del cliente
      * que se obtiene al marcar una fila de la tabla de la aplicacion.
@@ -88,10 +103,10 @@ public class ControladorListar {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();	
         Session sesion = sessionFactory.openSession();
         Transaction tx = sesion.beginTransaction();
-        String sql="delete Ventas v " +
-                        "JOIN Ventas v, Juegos j, Clientes c ON j.idJuego = v.juegos.idJuego and c.idCliente = v.clientes..idClientes";
+        String sql="delete from Ventas v where idJuego = idJuego and idCliente = idCliente";
         Query qd=sesion.createQuery(sql);
-        int fafecd=qd.executeUpdate();
+        qd.executeUpdate();
         tx.commit();
+        sesion.close();
     }
 }

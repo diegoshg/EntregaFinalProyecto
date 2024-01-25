@@ -8,6 +8,7 @@ import Controlador.ControladorListar;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.Ventas;
 
 /**
  *
@@ -165,8 +166,12 @@ public class panelListar extends javax.swing.JPanel {
         int fila = tablaFinal.getSelectedRow();
         if (fila != -1) {
             String id = tablaFinal.getValueAt(fila, 0).toString();
-            cl.eliminarVenta(id);
-            JOptionPane.showMessageDialog(null, "Venta eliminada correctamente", "Bien", JOptionPane.INFORMATION_MESSAGE);
+            String nom = tablaFinal.getValueAt(fila, 1).toString();
+            Ventas v = cl.obtenerJuegoporNombre(nom);
+            if (id.equals(v)) {
+                cl.eliminarVenta(id);
+                JOptionPane.showMessageDialog(null, "Venta eliminada correctamente", "Bien", JOptionPane.INFORMATION_MESSAGE);
+            }
         }else{
             JOptionPane.showMessageDialog(null, "debe seleccionar una fila para borrar una venta", "Error", JOptionPane.ERROR_MESSAGE);
         }
