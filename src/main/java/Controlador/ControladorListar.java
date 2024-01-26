@@ -7,6 +7,8 @@ package Controlador;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.swing.JButton;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Juegos;
 import model.Ventas;
@@ -32,7 +34,7 @@ public class ControladorListar {
      * Si ya contiene una fila con unos datos no lo introduce y asi hasta que termina de recoger datos de las tablas.
      * @return un modelo para la tabla
      */
-    public DefaultTableModel recogerDatos(){
+    public DefaultTableModel recogerDatos(JTable tabla){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
@@ -43,12 +45,18 @@ public class ControladorListar {
                         "JOIN Clientes c ON v.clientes.idCliente = c.idCliente ", Object[].class);
             
             List<Object[]> resultado = query.list();
+            tabla.setDefaultRenderer(Object.class, new Render());
+            JButton boton = new JButton("Borrar");
             DefaultTableModel model = new DefaultTableModel();
+            isCellEditable(tabla);
             model.addColumn("ISBN");
             model.addColumn("Juego");
             model.addColumn("Plataforma");
             model.addColumn("Precio");
             model.addColumn("Cliente");
+            model.addColumn("");
+            
+            
            
             Set<String> filasUnicas = new HashSet<>();
           for (Object[] row : resultado) {
@@ -57,15 +65,19 @@ public class ControladorListar {
                 String plataforma = (String) row[2];
                 Double precio = (Double) row[3];
                 String nombreCliente = (String) row[4];
+                
 
                 String filaUnica = ISBN + nombreJuego + plataforma + precio + nombreCliente;
 
                 if (!filasUnicas.contains(filaUnica)) {
-                    model.addRow(new Object[]{ISBN, nombreJuego, plataforma, precio, nombreCliente});
+                    model.addRow(new Object[]{ISBN, nombreJuego, plataforma, precio, nombreCliente, boton});
                     filasUnicas.add(filaUnica);
     
             }
+                
+            
           }
+          
             
             transaction.commit();
             return model;
@@ -77,8 +89,13 @@ public class ControladorListar {
         } finally {
             session.close();
         }
+        
 
         return null;
+    }
+    
+    public boolean isCellEditable(JTable table){
+        return false;
     }
     
    public static Ventas obtenerVenta(int idVenta){

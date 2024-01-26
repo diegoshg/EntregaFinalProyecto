@@ -141,8 +141,9 @@ public class panelListar extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
     //boton para mostrar los datos en la tabla
     private void botonRefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRefrescarActionPerformed
-       modelo = cl.recogerDatos();
+       modelo = cl.recogerDatos(tablaFinal);
        tablaFinal.setModel(modelo);
+       
     }//GEN-LAST:event_botonRefrescarActionPerformed
 
     //metodos para los holder de los botones y el cursor, al entrar en el boton cambia el brillo del boton y el cursor se vuelve una mano y al salir vuelva a la normalidad 
@@ -165,6 +166,8 @@ public class panelListar extends javax.swing.JPanel {
     private void botonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBorrarActionPerformed
         
     }//GEN-LAST:event_botonBorrarActionPerformed
+    
+    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
