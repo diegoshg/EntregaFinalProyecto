@@ -81,15 +81,16 @@ public class ControladorListar {
         return null;
     }
     
-   public static Ventas obtenerJuegoporNombre(String nombre_juego){
+   public static Ventas obtenerVenta(int idVenta){
     Session session = HibernateUtil.getSessionFactory().openSession();
     Transaction transaction = null;
       try {
             transaction = session.beginTransaction();
-            String hqlJuego = "Select j.idJuego, c.idCliente FROM Juegos j, Ventas v, Clientes c WHERE v.juegos.idJuego = : j.idJuego and v.clientes.idCliente = :c.idCliente";
-            Ventas queryJuego = session.createQuery(hqlJuego, Ventas.class).setParameter("nombre_juego", nombre_juego).getSingleResult();
+            String hqlJuego = "Select from Ventas where idVenta = :idventa";
+            Ventas queryJuego = session.createQuery(hqlJuego, Ventas.class).setParameter("idVenta", idVenta).getSingleResult();
             return queryJuego;
       } catch (Exception e) {
+          e.printStackTrace();
       }
       return null;
   }
@@ -99,14 +100,14 @@ public class ControladorListar {
      * que se obtiene al marcar una fila de la tabla de la aplicacion.
      * @param fila recoge la fila de la tabla correspondiente a eliminar en un tipo String
      */
-    public void eliminarVenta(String fila){
+    public void eliminarVenta(Ventas v){
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();	
         Session sesion = sessionFactory.openSession();
-        Transaction tx = sesion.beginTransaction();
-        String sql="delete from Ventas v where idJuego = idJuego and idCliente = idCliente";
-        Query qd=sesion.createQuery(sql);
-        qd.executeUpdate();
-        tx.commit();
+        sesion.beginTransaction();
+        String sql="from Ventas where idVenta = :idVenta";
+        Ventas venta = sesion.createQuery(sql,Ventas.class).setParameter("idVenta", v.getIdVenta()).uniqueResult();
+        sesion.delete(venta);
+        sesion.getTransaction().commit();
         sesion.close();
     }
 }

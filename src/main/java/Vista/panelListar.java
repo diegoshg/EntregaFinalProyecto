@@ -163,18 +163,7 @@ public class panelListar extends javax.swing.JPanel {
     }//GEN-LAST:event_botonBorrarMouseExited
 
     private void botonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBorrarActionPerformed
-        int fila = tablaFinal.getSelectedRow();
-        if (fila != -1) {
-            String id = tablaFinal.getValueAt(fila, 0).toString();
-            String nom = tablaFinal.getValueAt(fila, 1).toString();
-            Ventas v = cl.obtenerJuegoporNombre(nom);
-            if (id.equals(v)) {
-                cl.eliminarVenta(id);
-                JOptionPane.showMessageDialog(null, "Venta eliminada correctamente", "Bien", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }else{
-            JOptionPane.showMessageDialog(null, "debe seleccionar una fila para borrar una venta", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        
     }//GEN-LAST:event_botonBorrarActionPerformed
 
 

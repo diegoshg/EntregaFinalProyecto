@@ -220,7 +220,7 @@ public class Loggin extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Eras Bold ITC", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("BIENVENIDO");
+        jLabel1.setText("INICIO SESION");
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/charmander 1.png"))); // NOI18N
 
@@ -229,9 +229,9 @@ public class Loggin extends javax.swing.JFrame {
         fondoLayout.setHorizontalGroup(
             fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fondoLayout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel2))
             .addComponent(panelInterior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -243,7 +243,7 @@ public class Loggin extends javax.swing.JFrame {
                         .addGap(54, 54, 54)
                         .addComponent(jLabel2))
                     .addGroup(fondoLayout.createSequentialGroup()
-                        .addGap(42, 42, 42)
+                        .addGap(46, 46, 46)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addComponent(panelInterior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
