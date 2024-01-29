@@ -51,6 +51,7 @@ public class ControladorListar {
             List<Object[]> resultado = query.list();
             tabla.setDefaultRenderer(Object.class, new Render());
             JButton boton = new JButton("Borrar");
+            
             DefaultTableModel model = new DefaultTableModel();
             isCellEditable(tabla);
             model.addColumn("ISBN");
@@ -70,19 +71,23 @@ public class ControladorListar {
                 Double precio = (Double) row[3];
                 String nombreCliente = (String) row[4];
                 boton.setToolTipText("Boton para eliminar un registro");
-               
+                boton.setEnabled(true);
                 
-                boton.addActionListener(new ActionListener() {
+                
+                                boton.addActionListener(new ActionListener() {
                   @Override
                   public void actionPerformed(ActionEvent e) {
+                     
                       int idJ = obtenerIdJuego(ISBN);
                       String idJ1 = String.valueOf(idJ);
+                      System.out.println(idJ1);
                       int idC = obtenerIdCliente(nombreCliente);
                       String idC1 = String.valueOf(idC);
+                      System.out.println(idC1);
+                      
                   }
                 });
            
-                
 
                 String filaUnica = ISBN + nombreJuego + plataforma + precio + nombreCliente;
 
@@ -91,6 +96,8 @@ public class ControladorListar {
                     filasUnicas.add(filaUnica);
     
             }
+                
+
                 
             
           }
@@ -114,6 +121,8 @@ public class ControladorListar {
     public boolean isCellEditable(JTable table){
         return false;
     }
+    
+    
     
     
     public int comprobarVenta(String isbn, String idC){
@@ -184,14 +193,15 @@ public class ControladorListar {
      * que se obtiene al marcar una fila de la tabla de la aplicacion.
      * @param fila recoge la fila de la tabla correspondiente a eliminar en un tipo String
      */
-    public void eliminarVenta(Ventas v){
+    public void eliminarVenta(int id){
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();	
         Session sesion = sessionFactory.openSession();
-        sesion.beginTransaction();
+        Transaction tx = sesion.beginTransaction();
         String sql="from Ventas where idVenta = :idVenta";
-        Ventas venta = sesion.createQuery(sql,Ventas.class).setParameter("idVenta", v.getIdVenta()).uniqueResult();
-        sesion.delete(venta);
-        sesion.getTransaction().commit();
+        Query q = sesion.createQuery("sql");
+        q.setParameter("idVenta", id);
+        q.executeUpdate();
+        tx.commit();
         sesion.close();
     }
 }

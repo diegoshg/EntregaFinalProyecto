@@ -5,7 +5,10 @@
 package Vista;
 
 import Controlador.ControladorListar;
+import Controlador.Render;
+import Controlador.Render;
 import java.awt.Color;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Ventas;
@@ -18,6 +21,7 @@ public class panelListar extends javax.swing.JPanel {
     //declaramos un modelo para la tabla y llamamos al controlador
     DefaultTableModel modelo = new DefaultTableModel();
     private ControladorListar cl = new ControladorListar();
+    private Render r = new Render();
     /**
      * Creates new form panelListar
      */
@@ -27,6 +31,8 @@ public class panelListar extends javax.swing.JPanel {
         botonRefrescar.putClientProperty( "JButton.buttonType" , "roundRect" );
         botonRefrescar.setToolTipText("Boton para refrescar la tabla");
         botonBorrar.setToolTipText("Boton para eliminar un registro");
+        Object cellValue = tablaFinal.getValueAt(tablaFinal.getSelectedRow(), 5);
+        r.getTableCellRendererComponent(tablaFinal, cellValue, true, true, tablaFinal.getSelectedRow(), 5);
         
     }
 
@@ -79,11 +85,6 @@ public class panelListar extends javax.swing.JPanel {
                 botonBorrarMouseExited(evt);
             }
         });
-        botonBorrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonBorrarActionPerformed(evt);
-            }
-        });
 
         tablaFinal.setBackground(new java.awt.Color(255, 255, 255));
         tablaFinal.setForeground(new java.awt.Color(0, 0, 0));
@@ -99,7 +100,7 @@ public class panelListar extends javax.swing.JPanel {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, true, true, true, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -110,7 +111,9 @@ public class panelListar extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tablaFinal.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(tablaFinal);
+        tablaFinal.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         botonVer.setBackground(new java.awt.Color(0, 0, 0));
         botonVer.setForeground(new java.awt.Color(255, 255, 255));
@@ -170,10 +173,6 @@ public class panelListar extends javax.swing.JPanel {
     private void botonBorrarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonBorrarMouseExited
          botonBorrar.setBackground(new Color(6,2,221));
     }//GEN-LAST:event_botonBorrarMouseExited
-
-    private void botonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBorrarActionPerformed
-        
-    }//GEN-LAST:event_botonBorrarActionPerformed
     
     
 

@@ -11,9 +11,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
- * @author Alumno
+ * @author Diego Sanchez Gandara
  */
-class Render extends DefaultTableCellRenderer {
+public class Render extends DefaultTableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         if (value instanceof JButton) {
             return (JButton) value;
