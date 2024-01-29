@@ -27,6 +27,7 @@ public class panelListar extends javax.swing.JPanel {
         botonRefrescar.putClientProperty( "JButton.buttonType" , "roundRect" );
         botonRefrescar.setToolTipText("Boton para refrescar la tabla");
         botonBorrar.setToolTipText("Boton para eliminar un registro");
+        
     }
 
     /**
@@ -91,15 +92,22 @@ public class panelListar extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ISBN", "Juego", "Plataforma", "Precio", "Cliente"
+                "ISBN", "Juego", "Plataforma", "Precio", "Cliente", ""
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(tablaFinal);

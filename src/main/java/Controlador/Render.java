@@ -13,12 +13,10 @@ import javax.swing.table.DefaultTableCellRenderer;
  *
  * @author Alumno
  */
-public class Render extends DefaultTableCellRenderer{
-    
-    public Component getTableCellRenderComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column){
+class Render extends DefaultTableCellRenderer {
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         if (value instanceof JButton) {
-            JButton btn = (JButton)value;
-            return btn;
+            return (JButton) value;
         }
         return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
     }
