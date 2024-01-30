@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import model.Clientes;
 import model.Juegos;
 import model.Ventas;
+import org.hibernate.HibernateException;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -29,7 +30,7 @@ import org.hibernate.query.Query;
  * @author Diego Sanchez Gandara
  */
 public class ControladorListar {
-    
+    private Render r = new Render();
     /**
      * Este metodo sirve para recoger los datos de las tablas de juegos y clientes y mostarlos en la 
      * tabla de la aplicacion. Llamamos a los datos con las consultas y almacenamos sus resultados en una variable
@@ -53,7 +54,7 @@ public class ControladorListar {
             JButton boton = new JButton("Borrar");
             
             DefaultTableModel model = new DefaultTableModel();
-            isCellEditable(tabla);
+           
             model.addColumn("ISBN");
             model.addColumn("Juego");
             model.addColumn("Plataforma");
@@ -70,34 +71,43 @@ public class ControladorListar {
                 String plataforma = (String) row[2];
                 Double precio = (Double) row[3];
                 String nombreCliente = (String) row[4];
+                boton =  (JButton) r.getTableCellRendererComponent(tabla, boton, true, true, tabla.getRowCount(), 5);
                 boton.setToolTipText("Boton para eliminar un registro");
                 boton.setEnabled(true);
+                /*int pruebaIdJ = obtenerIdJuego(ISBN);
+                System.out.println(pruebaIdJ);
+                int pruebaUdC = obtenerIdCliente(nombreCliente);
+                System.out.println(pruebaUdC);*/
                 
                 
-                                boton.addActionListener(new ActionListener() {
-                  @Override
-                  public void actionPerformed(ActionEvent e) {
-                     
-                      int idJ = obtenerIdJuego(ISBN);
-                      String idJ1 = String.valueOf(idJ);
-                      System.out.println(idJ1);
-                      int idC = obtenerIdCliente(nombreCliente);
-                      String idC1 = String.valueOf(idC);
-                      System.out.println(idC1);
-                      
-                  }
-                });
+                
            
 
                 String filaUnica = ISBN + nombreJuego + plataforma + precio + nombreCliente;
 
                 if (!filasUnicas.contains(filaUnica)) {
+                   
                     model.addRow(new Object[]{ISBN, nombreJuego, plataforma, precio, nombreCliente, boton});
                     filasUnicas.add(filaUnica);
+                    boton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        int idJ = obtenerIdJuego(ISBN, tabla.getSelectedRow());
+                        String idJ1 = String.valueOf(idJ);
+                        System.out.println(idJ);
+                        int idC = obtenerIdCliente(nombreCliente, tabla.getSelectedRow());
+                        String idC1 = String.valueOf(idC);
+                        System.out.println(idC);
+                        int idV = comprobarVenta(idJ, idC);
+                        
+                        eliminarVenta(idV);
+
+                    }
+                  });
     
             }
                 
-
+            
                 
             
           }
@@ -118,23 +128,23 @@ public class ControladorListar {
         return null;
     }
     
-    public boolean isCellEditable(JTable table){
+    public boolean isCellEditable(int row, int column){
         return false;
     }
     
     
     
     
-    public int comprobarVenta(String isbn, String idC){
+    public int comprobarVenta(int idJ, int idC){
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session sesion = sessionFactory.openSession();
         int idV = -1;
         try {
-            String sql = "from Ventas v, Clientes c, Juegos j where v.idJuego = :j.idJuego and v.idCliente = : c.idCliente";
+           String sql = "from Ventas v where v.juegos.ISBN = :isbn and v.clientes.idCliente = :idCliente";
             Query q = sesion.createQuery(sql);
-            q.setParameter("idJuego", isbn);
+            q.setParameter("isbn", idJ);
             q.setParameter("idCliente", idC);
-            List<Ventas> lista = q.list();
+            List<Ventas> lista = q.getResultList();
             for (Ventas ventas : lista) {
                 if (ventas != null) {
                     idV = ventas.getIdVenta();
@@ -148,40 +158,37 @@ public class ControladorListar {
     }
     
     
-   public int obtenerIdJuego(String isbn){
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();	
+   public int obtenerIdJuego(String isbn, int row){
+         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session sesion = sessionFactory.openSession();
         int id = -1;
         try {
-           String sql = "from Juegos where isbn = :isbn";
-           Query q = sesion.createQuery(sql);
-           q.setParameter("isbn", isbn);
-           List<Juegos> lista = q.list();
-            for (Juegos juegos : lista) {
-                if (juegos != null) {
-                    id = juegos.getIdJuego();
-                }
+            String sql = "from Juegos where isbn = :isbn";
+            Query q = sesion.createQuery(sql);
+            q.setParameter("isbn", isbn);
+            List<Juegos> lista = q.getResultList();
+
+            if (!lista.isEmpty()) {
+                id = lista.get(0).getIdJuego();
             }
-       } catch (ObjectNotFoundException e) {
-           e.printStackTrace();
-       }
-       return id;
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            sesion.close();
+        }
+        return id;
    }
    
-   public int obtenerIdCliente(String nombre_cliente){
+   public int obtenerIdCliente(String nombre_cliente, int row){
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();	
         Session sesion = sessionFactory.openSession();
         int id = -1;
         try {
-           String sql = "from Clientes where nombreCliente = :nombreCliente";
-           Query q = sesion.createQuery(sql);
-           q.setParameter("nombreCliente", nombre_cliente);
-           List<Clientes> lista = q.list();
-            for (Clientes clientes : lista) {
-                if (clientes != null) {
-                    id = clientes.getIdCliente();
-                }
-            }
+        String sql = "from Clientes where nombreCliente = :nombreCliente";
+        Query q = sesion.createQuery(sql);
+        q.setParameter("nombreCliente", nombre_cliente);
+        Clientes cliente = (Clientes) q.getSingleResult();
+        id = cliente.getIdCliente();
        } catch (ObjectNotFoundException e) {
            e.printStackTrace();
        }

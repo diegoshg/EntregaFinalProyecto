@@ -21,7 +21,7 @@ public class panelListar extends javax.swing.JPanel {
     //declaramos un modelo para la tabla y llamamos al controlador
     DefaultTableModel modelo = new DefaultTableModel();
     private ControladorListar cl = new ControladorListar();
-    private Render r = new Render();
+    
     /**
      * Creates new form panelListar
      */
@@ -31,8 +31,7 @@ public class panelListar extends javax.swing.JPanel {
         botonRefrescar.putClientProperty( "JButton.buttonType" , "roundRect" );
         botonRefrescar.setToolTipText("Boton para refrescar la tabla");
         botonBorrar.setToolTipText("Boton para eliminar un registro");
-        Object cellValue = tablaFinal.getValueAt(tablaFinal.getSelectedRow(), 5);
-        r.getTableCellRendererComponent(tablaFinal, cellValue, true, true, tablaFinal.getSelectedRow(), 5);
+        
         
     }
 
@@ -100,7 +99,7 @@ public class panelListar extends javax.swing.JPanel {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -112,6 +111,11 @@ public class panelListar extends javax.swing.JPanel {
             }
         });
         tablaFinal.setColumnSelectionAllowed(true);
+        tablaFinal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaFinalMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaFinal);
         tablaFinal.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
@@ -153,6 +157,7 @@ public class panelListar extends javax.swing.JPanel {
     //boton para mostrar los datos en la tabla
     private void botonRefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRefrescarActionPerformed
        modelo = cl.recogerDatos(tablaFinal);
+       cl.isCellEditable(tablaFinal.getRowCount(), tablaFinal.getColumnCount());
        tablaFinal.setModel(modelo);
        
     }//GEN-LAST:event_botonRefrescarActionPerformed
@@ -173,6 +178,18 @@ public class panelListar extends javax.swing.JPanel {
     private void botonBorrarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonBorrarMouseExited
          botonBorrar.setBackground(new Color(6,2,221));
     }//GEN-LAST:event_botonBorrarMouseExited
+
+    private void tablaFinalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaFinalMouseClicked
+        int column = tablaFinal.getColumnModel().getColumnIndexAtX(evt.getX());
+        int row = evt.getY()/tablaFinal.getRowHeight();
+        if (row < tablaFinal.getRowCount() && row >= 0 && column < tablaFinal.getColumnCount() && column >= 0) {
+            Object value = tablaFinal.getValueAt(row, column);
+            if (value instanceof JButton) {
+                ((JButton)value).doClick();
+                JButton boton = (JButton) value;
+            }
+        }
+    }//GEN-LAST:event_tablaFinalMouseClicked
     
     
 
