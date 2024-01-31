@@ -51,7 +51,7 @@ public class ControladorListar {
             
             List<Object[]> resultado = query.list();
             tabla.setDefaultRenderer(Object.class, new Render());
-            JButton boton = new JButton("Borrar");
+            JButton boton; 
             
             DefaultTableModel model = new DefaultTableModel();
            
@@ -66,6 +66,7 @@ public class ControladorListar {
            
             Set<String> filasUnicas = new HashSet<>();
           for (Object[] row : resultado) {
+                boton = new JButton("Borrar");
                 String ISBN = (String) row[0];
                 String nombreJuego = (String) row[1];
                 String plataforma = (String) row[2];
@@ -92,14 +93,18 @@ public class ControladorListar {
                     boton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        System.out.println("--------------------");
                         int idJ = obtenerIdJuego(ISBN);
                         String idJ1 = String.valueOf(idJ);
-                        System.out.println(idJ);
+                        System.out.println("ID Juego: " + idJ);  
+                       
                         int idC = obtenerIdCliente(nombreCliente);
                         String idC1 = String.valueOf(idC);
-                        System.out.println(idC);
-                        //int idV = comprobarVenta(idJ, idC);                 
-                        //eliminarVenta(idV);
+                        System.out.println("ID Cliente: " + idC);
+                        int idV = comprobarVenta(idJ, idC);
+                        System.out.println(idV);
+                        eliminarVenta(idV);
+                        System.out.println("Venta eliminada Correctamente");
 
                     }
                   });
@@ -141,7 +146,7 @@ public class ControladorListar {
         try {
            String sql = "from Ventas v where v.juegos.idJuego = :idJuego and v.clientes.idCliente = :idCliente";
             Query q = sesion.createQuery(sql);
-            q.setParameter("idjuego", idJ);
+            q.setParameter("idJuego", idJ);
             q.setParameter("idCliente", idC);
             List<Ventas> lista = q.getResultList();
             for (Ventas ventas : lista) {
@@ -179,19 +184,24 @@ public class ControladorListar {
    }
    
    public int obtenerIdCliente(String nombre_cliente){
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();	
-        Session sesion = sessionFactory.openSession();
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = sessionFactory.openSession();
         int id = -1;
-        try {
-        String sql = "from Clientes where nombreCliente = :nombreCliente";
-        Query q = sesion.createQuery(sql);
-        q.setParameter("nombreCliente", nombre_cliente);
-        Clientes cliente = (Clientes) q.getSingleResult();
-        id = cliente.getIdCliente();
-       } catch (ObjectNotFoundException e) {
-           e.printStackTrace();
-       }
-       return id;
+          try {
+                  String sql = "from Clientes where nombreCliente = :nombreCliente";
+                  Query q = session.createQuery(sql);
+                  q.setParameter("nombreCliente", nombre_cliente);
+                  List<Clientes> lista = q.getResultList();
+                  for (Clientes clientes : lista) {
+                          if (clientes != null) {
+                                  id = clientes.getIdCliente();
+                          }
+                  }
+          } catch (ObjectNotFoundException e) {
+                  // TODO: handle exception
+                  e.printStackTrace();
+          }
+      return id;
    }
     
     /**
@@ -203,8 +213,8 @@ public class ControladorListar {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();	
         Session sesion = sessionFactory.openSession();
         Transaction tx = sesion.beginTransaction();
-        String sql="from Ventas where idVenta = :idVenta";
-        Query q = sesion.createQuery("sql");
+        String sql="delete Ventas where idVenta = :idVenta";
+        Query q = sesion.createQuery(sql);
         q.setParameter("idVenta", id);
         q.executeUpdate();
         tx.commit();
