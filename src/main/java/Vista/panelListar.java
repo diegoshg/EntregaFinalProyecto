@@ -30,7 +30,7 @@ public class panelListar extends javax.swing.JPanel {
         //funciones de flatlaf
         botonRefrescar.putClientProperty( "JButton.buttonType" , "roundRect" );
         botonRefrescar.setToolTipText("Boton para refrescar la tabla");
-        botonBorrar.setToolTipText("Boton para eliminar un registro");
+        
         
         
     }
@@ -45,10 +45,9 @@ public class panelListar extends javax.swing.JPanel {
     private void initComponents() {
 
         botonRefrescar = new javax.swing.JButton();
-        botonBorrar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaFinal = new javax.swing.JTable();
-        botonVer = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(6, 2, 221));
 
@@ -71,21 +70,8 @@ public class panelListar extends javax.swing.JPanel {
             }
         });
 
-        botonBorrar.setBackground(new java.awt.Color(6, 2, 221));
-        botonBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/papelera .png"))); // NOI18N
-        botonBorrar.setToolTipText("boton para eliminar registro");
-        botonBorrar.setBorderPainted(false);
-        botonBorrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        botonBorrar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                botonBorrarMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                botonBorrarMouseExited(evt);
-            }
-        });
-
         tablaFinal.setBackground(new java.awt.Color(255, 255, 255));
+        tablaFinal.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         tablaFinal.setForeground(new java.awt.Color(0, 0, 0));
         tablaFinal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -119,39 +105,40 @@ public class panelListar extends javax.swing.JPanel {
         jScrollPane1.setViewportView(tablaFinal);
         tablaFinal.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        botonVer.setBackground(new java.awt.Color(0, 0, 0));
-        botonVer.setForeground(new java.awt.Color(255, 255, 255));
-        botonVer.setText("Mas informacion");
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/mando.jpg"))); // NOI18N
+        jLabel1.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jLabel1AncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jLabel1))
+            .addGroup(layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(botonRefrescar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(140, 140, 140)
-                .addComponent(botonBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(botonVer, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(botonRefrescar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(10, 10, 10)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(botonRefrescar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(botonBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(60, 60, 60)
-                .addComponent(botonVer, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(botonRefrescar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
     //boton para mostrar los datos en la tabla
@@ -171,14 +158,6 @@ public class panelListar extends javax.swing.JPanel {
         botonRefrescar.setBackground(new Color(0, 0, 0));
     }//GEN-LAST:event_botonRefrescarMouseExited
 
-    private void botonBorrarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonBorrarMouseEntered
-        botonBorrar.setBackground(new Color(75, 72, 71));
-    }//GEN-LAST:event_botonBorrarMouseEntered
-
-    private void botonBorrarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonBorrarMouseExited
-         botonBorrar.setBackground(new Color(6,2,221));
-    }//GEN-LAST:event_botonBorrarMouseExited
-
     private void tablaFinalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaFinalMouseClicked
         int column = tablaFinal.getColumnModel().getColumnIndexAtX(evt.getX());
         int row = evt.getY()/tablaFinal.getRowHeight();
@@ -190,14 +169,17 @@ public class panelListar extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_tablaFinalMouseClicked
+
+    private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel1AncestorAdded
     
     
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton botonBorrar;
     private javax.swing.JButton botonRefrescar;
-    private javax.swing.JButton botonVer;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaFinal;
     // End of variables declaration//GEN-END:variables
