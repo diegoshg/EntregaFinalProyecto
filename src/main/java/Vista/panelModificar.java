@@ -9,17 +9,17 @@ import java.awt.Color;
 import javax.swing.JOptionPane;
 
 /**
- *
+ *Este panel modifica el precio de un juego en base a su nombre y su isbn.
  * @author Diego Sanchez Gandara
  */
 public class panelModificar extends javax.swing.JPanel {
     private ControladorModificar cm = new ControladorModificar();
     /**
-     * Creates new form panelModificar
+     *Estilos de fuente y botones.
      */
     public panelModificar() {
         initComponents();
-        //configuracion de flatlaf
+        
         jLabel1.putClientProperty("FlatLaf.style", "font: $h2.font");
         jLabel2.putClientProperty("FlatLaf.style", "font: $h2.font");
         jLabel3.putClientProperty("FlatLaf.style", "font: $h2.font");
@@ -134,7 +134,10 @@ public class panelModificar extends javax.swing.JPanel {
                     .addComponent(jLabel4)))
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * este boton comprueba si el juego existe y si es asi modifica su precio en la base de datos.
+     * @param evt 
+     */
     private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
         if (juegoNombre.getText().isEmpty()|| precioNuevo.getText().isEmpty()||ISBNJuego.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Introduzca todos los datos", "Error", JOptionPane.ERROR_MESSAGE);
@@ -156,7 +159,11 @@ public class panelModificar extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_botonModificarActionPerformed
-//metodos para los holder de los botones y el cursor, al entrar en el boton cambia el brillo del boton y el cursor se vuelve una mano y al salir vuelva a la normalidad 
+
+    /**
+     * estos eventos cambian el hover de los botones.
+     * @param evt 
+     */
     private void botonModificarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonModificarMouseEntered
          botonModificar.setBackground(new Color(75, 72, 71));
     }//GEN-LAST:event_botonModificarMouseEntered

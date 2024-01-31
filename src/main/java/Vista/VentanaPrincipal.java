@@ -20,20 +20,20 @@ import java.awt.Cursor;
 import javax.swing.JPanel;
 
 /**
- *
+ *Esta pantalla es la pantalla principal de la aplicacion que va cambiando entre paneles.
  * @author Diego Sanchez Gandara
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
-    //llamamos al loggin
+    /**
+     * llamamos a la pantalla del loggin.
+     */
     private Loggin l1;
     /**
-     * Creates new form Introducir
+     * Ponemos los estilos de letra  y llamamos por defecto al ejecutar al panel de introducir.
      */
     public VentanaPrincipal() {
-        initComponents();
-        //estilos de texto
+        initComponents();   
         mensajeCambiante.putClientProperty("FlatLaf.style", "font: $h3.font");
-        //llamamos al primer panel para que se muestre al ejecutar la aplicacion
         panelIntroducir pi = new panelIntroducir();
         pi.setSize(375,523);
         pi.setLocation(0, 0);
@@ -222,7 +222,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    //boton para abrir el panel de introducir
+    /**
+     * Este evento  cambia el panel a introducir.
+     * @param evt 
+     */
     private void botonIntroducirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIntroducirActionPerformed
         panelIntroducir pi = new panelIntroducir();
         pi.setSize(375,523);
@@ -230,7 +233,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         mostrarPanel(pi);
         mensajeCambiante.setText("INTRODUCIR");
     }//GEN-LAST:event_botonIntroducirActionPerformed
-    //boton para abrir el panel de buscar
+   /**
+    * este evento cambia el panel a buscar cliente
+    * @param evt 
+    */
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
         panelBuscar pb = new panelBuscar();
         pb.setSize(375,523);
@@ -238,7 +244,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         mostrarPanel(pb);
         mensajeCambiante.setText("CONSULTAR");
     }//GEN-LAST:event_botonBuscarActionPerformed
-    //boton para abrir el panel de listar
+    /**
+     * este evento cambia el panel a listar todo
+     * @param evt 
+     */
     private void botonListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonListarActionPerformed
         panelListar pl = new panelListar();
         pl.setSize(375,523);
@@ -246,7 +255,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         mostrarPanel(pl);
         mensajeCambiante.setText("LISTAR");
     }//GEN-LAST:event_botonListarActionPerformed
-    //boton para abrir el panel de modificar
+    /**
+     * este evento cambia el panel a modificar.
+     * @param evt 
+     */
     private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
         panelModificar pm = new panelModificar();
         pm.setSize(375,523);
@@ -254,7 +266,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         mostrarPanel(pm);
         mensajeCambiante.setText("MODIFICAR");
     }//GEN-LAST:event_botonModificarActionPerformed
-    //boton para cerrar la sesion, sirve para volver a la pantalla del loggin
+   /**
+    * este evento cierra la sesion del usuario, cierra la ventana principal y manda de nuevo al usuario al loggin.
+    * @param evt 
+    */
     private void botonCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCerrarSesionActionPerformed
         dispose();
         if (l1 == null) {
@@ -262,7 +277,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             l1.setVisible(true);
         }
     }//GEN-LAST:event_botonCerrarSesionActionPerformed
-    //metodos para los holder de los botones y el cursor, al entrar en el boton cambia el brillo del boton y el cursor se vuelve una mano y al salir vuelva a la normalidad 
+    /**
+     * Estos eventos cambian el hover de los botones y la forma del cursor al entrar en un boton.
+     * @param evt 
+     */
     private void botonCerrarSesionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCerrarSesionMouseEntered
         setCursor(HAND_CURSOR);
         botonCerrarSesion.setBackground(new Color(229, 122, 72));

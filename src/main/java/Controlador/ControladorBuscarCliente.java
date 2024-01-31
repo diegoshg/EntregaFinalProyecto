@@ -48,26 +48,7 @@ public class ControladorBuscarCliente {
     return existe;
   }
     
-    
-    
-    /**
-     * este metodo obtiene el id del cliente por su nombre
-     * @param nombre_cliente este argumento es un tipo String que almacena el nombre del cliente
-     * @return el nombre del cliente
-     */
-     public static Clientes obtenerClienteporNombre(String nombre_cliente){
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = null;
-          try {
-                transaction = session.beginTransaction();
-                String hqlCliente = "FROM Clientes WHERE nombreCliente = :nombre_cliente";
-                Clientes queryCliente = session.createQuery(hqlCliente, Clientes.class).setParameter("nombre_cliente", nombre_cliente).getSingleResult();
-                return queryCliente;
-          } catch (Exception e) {
-          }
-          return null;
-  }
-    
+     
     /**
      * este metodo recoge el nombre de un juego en la base de datos y devuelve el id y nombre del cliente que han comprado ese juego.
      * @param nombre_juego almacena el nombre del juego en un tipo String

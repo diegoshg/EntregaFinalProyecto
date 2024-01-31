@@ -13,13 +13,13 @@ import java.util.logging.Logger;
 import javax.swing.Timer;
 
 /**
- *
+ *Esta pantalla muestra un SplashScreen antes de abrir la pantalla el loggin de la app.
  * @author Diego Sanchez Gandara
  */
 public class Principal extends javax.swing.JFrame {
 
     /**
-     * Creates new form Principal
+     * Le ponemos la posicion central para que siempre aparezca en el centro de la pantalla
      */
     public Principal() {
         initComponents();
@@ -95,6 +95,7 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
+     * Ponemos el tema de faltlaf y le ponemos el valor de carga de la barra. Cuando acaba se cierra y abre la ventana del loggin.
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -121,15 +122,15 @@ public class Principal extends javax.swing.JFrame {
         }
         //</editor-fold>
          FlatIntelliJLaf.setup();
-        /* Create and display the form */
+        
         Principal p1 =new Principal();
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                //llamamos a la pantalla del loggin
+               
                 p1.setVisible(true);
             }
         });
-        //mi codigo
+       
         try{
             //tiempo de carga de la barra
             for(int i=0;i<=100;i++){
@@ -141,14 +142,14 @@ public class Principal extends javax.swing.JFrame {
         }catch(Exception e){
             
         }
-        //para ir a la otra ventana
+       
        Loggin l = new Loggin();
-        //cerrar o esconder antes de abrir principal
+        
         p1.setVisible(false);
         l.setVisible(true);
         
         
-        //cerrar pantallla de carga
+        
         p1.dispose();
     }
 

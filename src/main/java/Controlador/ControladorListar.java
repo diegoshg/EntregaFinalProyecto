@@ -92,15 +92,14 @@ public class ControladorListar {
                     boton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        int idJ = obtenerIdJuego(ISBN, tabla.getSelectedRow());
+                        int idJ = obtenerIdJuego(ISBN);
                         String idJ1 = String.valueOf(idJ);
                         System.out.println(idJ);
-                        int idC = obtenerIdCliente(nombreCliente, tabla.getSelectedRow());
+                        int idC = obtenerIdCliente(nombreCliente);
                         String idC1 = String.valueOf(idC);
                         System.out.println(idC);
-                        int idV = comprobarVenta(idJ, idC);
-                        
-                        eliminarVenta(idV);
+                        //int idV = comprobarVenta(idJ, idC);                 
+                        //eliminarVenta(idV);
 
                     }
                   });
@@ -140,9 +139,9 @@ public class ControladorListar {
         Session sesion = sessionFactory.openSession();
         int idV = -1;
         try {
-           String sql = "from Ventas v where v.juegos.ISBN = :isbn and v.clientes.idCliente = :idCliente";
+           String sql = "from Ventas v where v.juegos.idJuego = :idJuego and v.clientes.idCliente = :idCliente";
             Query q = sesion.createQuery(sql);
-            q.setParameter("isbn", idJ);
+            q.setParameter("idjuego", idJ);
             q.setParameter("idCliente", idC);
             List<Ventas> lista = q.getResultList();
             for (Ventas ventas : lista) {
@@ -158,7 +157,7 @@ public class ControladorListar {
     }
     
     
-   public int obtenerIdJuego(String isbn, int row){
+   public int obtenerIdJuego(String isbn){
          SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session sesion = sessionFactory.openSession();
         int id = -1;
@@ -179,7 +178,7 @@ public class ControladorListar {
         return id;
    }
    
-   public int obtenerIdCliente(String nombre_cliente, int row){
+   public int obtenerIdCliente(String nombre_cliente){
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();	
         Session sesion = sessionFactory.openSession();
         int id = -1;

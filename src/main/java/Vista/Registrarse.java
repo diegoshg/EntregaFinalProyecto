@@ -16,21 +16,24 @@ import javax.swing.JOptionPane;
 import model.Usuarios;
 
 /**
- *
+ *Esta pantalla permite regitrar un usuario nuevo en la base de datos.
  * @author Diego Sanchez Gandara
  */
 public class Registrarse extends javax.swing.JFrame {
-    //llamamos a las clases necesarias y al controlador
+    /**
+     * Llamamos al la pantalla del loggin, a la clase usuarios y al controlador correspondiente.
+     */
     private Loggin log;
     private Usuarios usu;
     private ControladorCrearCuenta clg = new ControladorCrearCuenta();
    
     /**
+     * Aqui se incluyen los estilos de fuente y demas.
      * Creates new form Registrarse
      */
     public Registrarse() {
         initComponents();
-        //estilos de flatlaf
+        
         botonCrearCuenta.putClientProperty( "JButton.buttonType" , "roundRect" );
         usuarioNuevo.setToolTipText("Introduzca su nuevo usuario");
         contrasenaNueva.setToolTipText("Introduzca su nueva contraseña");
@@ -205,9 +208,12 @@ public class Registrarse extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    //metodo para volver al loggin
+    /**
+     * este boton sirve para cerrar esta ventana y volver al loggin
+     * @param evt 
+     */
     private void botonvolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonvolverMouseClicked
-        //si el loggin se ha cerrado crea uno nuevo y cierra esta ventana
+
         if (log == null) {
             log = new Loggin();
             log.setVisible(true);
@@ -215,29 +221,34 @@ public class Registrarse extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_botonvolverMouseClicked
 
-    //boton para crear cuenta
+    /**
+     * Este boton se utiliza para guardar los datos del usuario e introducir la cuenta en la base de datos.
+     * Primero comprueba si alguno de los campos esta vacio, luego si ya existe la cuenta y despues si todo es
+     * correcto introduce el usuario nuevo.
+     * @param evt 
+     */
     private void botonCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearCuentaActionPerformed
         if (usuarioNuevo.getText().isEmpty() || contrasenaNueva.getText().isEmpty()||emailNuevo.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Complete todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
-             //pasamos los datos a variable
+            
         String user = usuarioNuevo.getText();
         String cont = contrasenaNueva.getText();
         String correo = emailNuevo.getText();
-        //si los campos estan vacios se indica y se piden
+        
         if (user.isEmpty() || cont.isEmpty() || correo.isEmpty()) {
             JOptionPane.showMessageDialog(rootPane, "Introduzca todos los campos");
         }else{
             try {
-                //comprobamos que las credenciales son correctas
+               
             boolean comprueba = clg.comprobarMail(correo);
-                //si el usuario ya existe nos indice que no puede crearlo nuevamente
+                
                 if (comprueba) {
                     JOptionPane.showMessageDialog(rootPane, "El email ya existe en la base de datos","Error", JOptionPane.ERROR_MESSAGE);
                     usuarioNuevo.setText("");
                     contrasenaNueva.setText("");
                     emailNuevo.setText("");
-                //sino crea uno nuevo, lo introduce en la base de datos y limpia los campos
+                
                 }else{
                     clg.introducirUsuario(user, cont, correo);
                     JOptionPane.showMessageDialog(rootPane, "Usuario Creado correctamente");
@@ -245,7 +256,7 @@ public class Registrarse extends javax.swing.JFrame {
                     contrasenaNueva.setText("");
                     emailNuevo.setText("");
                 }
-            //manejo de excepciones
+            
             }catch (ClassCastException e) {
                 e.printStackTrace();
             }
@@ -255,7 +266,10 @@ public class Registrarse extends javax.swing.JFrame {
         
     }//GEN-LAST:event_botonCrearCuentaActionPerformed
 
-    //metodos para los holder de los botones y el cursor, al entrar en el boton cambia el brillo del boton y el cursor se vuelve una mano y al salir vuelva a la normalidad 
+    /**
+     * Esta accion cambia el hover del boton al entrar y salir de el el raton.
+     * @param evt 
+     */
     private void botonCrearCuentaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCrearCuentaMouseEntered
         setCursor(HAND_CURSOR);
         botonCrearCuenta.setBackground(new Color(75, 72, 71));

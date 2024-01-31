@@ -10,7 +10,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 /**
- *
+ *Esta clase sirve para renderizar la tabla de mostrar datos y permitirnos introducir un boton en la tabla.
  * @author Diego Sanchez Gandara
  */
 public class Render extends DefaultTableCellRenderer {

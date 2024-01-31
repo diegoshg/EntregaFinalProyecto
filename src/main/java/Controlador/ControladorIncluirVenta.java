@@ -13,6 +13,8 @@ import model.Clientes;
 import model.Juegos;
 import model.Usuarios;
 import model.Ventas;
+import org.hibernate.HibernateException;
+import org.hibernate.ObjectNotFoundException;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -126,21 +128,29 @@ public class ControladorIncluirVenta {
 
   
   /**
-   * este metodo obtiene el id del juego a traves de su nombre.
-   * @param nombre_juego recoge el nombre del juego en un tipo String
+   * este metodo obtiene el id del cliente a traves de su nombre.
+   * @param nombre_juego recoge el nombre del cliente en un tipo String
    * @return un tipo Juegos
    */
-  public static Juegos obtenerJuegoporNombre(String nombre_juego){
-    Session session = HibernateUtil.getSessionFactory().openSession();
-    Transaction transaction = null;
-      try {
-            transaction = session.beginTransaction();
-            String hqlJuego = "FROM Juegos WHERE nombre_juego = :nombre_juego";
-            Juegos queryJuego = session.createQuery(hqlJuego, Juegos.class).setParameter("nombre_juego", nombre_juego).getSingleResult();
-            return queryJuego;
-      } catch (Exception e) {
-      }
-      return null;
+   public int obtenerIdCliente(String nombreCliente) {
+      SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+      Session session = sessionFactory.openSession();
+      int id = -1;
+        try {
+                String sql = "from Clientes where nombreCliente = :nombreCliente";
+                Query q = session.createQuery(sql);
+                q.setParameter("nombreCliente", nombreCliente);
+                List<Clientes> lista = q.getResultList();
+                for (Clientes clientes : lista) {
+                        if (clientes != null) {
+                                id = clientes.getIdCliente();
+                        }
+                }
+        } catch (ObjectNotFoundException e) {
+                // TODO: handle exception
+                e.printStackTrace();
+        }
+    return id;
   }
   
   
@@ -161,6 +171,35 @@ public class ControladorIncluirVenta {
       List<Juegos> listaJuego = queryJuego.list();
         for (Juegos listaJ : listaJuego) {
             if (listaJ.getISBN().equals(iSBN)) {
+                existe = true;
+            }
+        }
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      tx.commit();
+      sesion.close();
+    }
+
+    return existe;
+  }
+  
+  /**
+   * Este metodo comprueba si el cliente introducido existe en la base de datos.
+   * @param nombreCliente recoge el nombre del cliente en un tipo String. 
+   * @return true o false
+   */
+  public boolean comprobarCliente(String nombreCliente){
+     boolean existe = false;
+    SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+    Session sesion = sessionFactory.openSession();
+    Transaction tx = sesion.beginTransaction();
+    try {
+      String hqlCliente = "FROM Clientes where nombreCliente = :nombreCliente";
+      Query<Clientes> queryCliente= sesion.createQuery(hqlCliente, Clientes.class).setParameter("nombreCliente", nombreCliente);
+      List<Clientes> listaCliente = queryCliente.list();
+        for (Clientes listaC : listaCliente) {
+            if (listaC.getNombreCliente().equals(nombreCliente)) {
                 existe = true;
             }
         }
@@ -215,4 +254,40 @@ public class ControladorIncluirVenta {
       session.close();
     }
   }
+  
+    
+    /**
+     * Este metodo sirve para introducir una venta nueva en caso de que ya exista el cliente.Primero se obtiene el id de
+     * ese cliente y se guarda para evitar que se dupliquen datos.
+     * @param nombreJuego recoge el nombre del juego en un tipo String
+     * @param idCliente recoge el id del cliente en un tipo int
+     * @param precioVenta recoge el precio de la venta
+     * @param fechaVenta recoge la fecha de la venta
+     */
+    public static void registrarVenta2(String nombreJuego, int idCliente, double precioVenta, Date fechaVenta) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+         try {
+              Clientes cliente = session.get(Clientes.class, idCliente);
+                if (cliente != null) {
+                   Query<Juegos> consultaJuegos = session.createQuery("FROM Juegos j WHERE j.nombreJuego = :nombreJuego", Juegos.class);
+                   consultaJuegos.setParameter("nombreJuego", nombreJuego);
+                   List<Juegos> listaJuegos = consultaJuegos.list();
+                   Juegos j = null;
+                     for (Juegos listaJ : listaJuegos) {
+                         j = listaJ;
+                     }
+
+                   Ventas v = new Ventas();
+                   v.setJuegos(j);
+                   v.setClientes(cliente);
+                   v.setPrecioVenta(precioVenta);
+                   v.setFechaVenta(Date.valueOf(LocalDate.now()));
+                   session.save(v);
+                   transaction.commit();
+                  }
+         } catch (HibernateException e) {
+             e.printStackTrace();
+         }
+    }
 }

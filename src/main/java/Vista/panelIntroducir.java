@@ -15,17 +15,19 @@ import model.Juegos;
 
 
 /**
- *
+ *Este panel introduce datos de juegos, clientes y ventas en la base de datos.
  * @author Diego Sanchez Gandara
  */
 public class panelIntroducir extends javax.swing.JPanel {
-    //Llamamos al controlador de la clase y los modelos
+    /**
+     * Llamamos a su controlador y a las clases clientes y juegos.
+     */
     private Controlador.ControladorIncluirVenta civ = new ControladorIncluirVenta();
     private Juegos j = new Juegos();
     private Clientes c = new Clientes();
     
     /**
-     * Creates new form panelIntroducir
+     * Estilos de fuente y demas.
      */
     public panelIntroducir() {
         initComponents();
@@ -171,13 +173,18 @@ public class panelIntroducir extends javax.swing.JPanel {
                         .addComponent(jLabel5))))
         );
     }// </editor-fold>//GEN-END:initComponents
-    //boton para introducir una nueva venta
+    /**
+     * este boton introduce datos en la base de datos. Si ninguno de los datos existe lo crea todo, si existe el isbn del juego 
+     * indica que no se puede repetir, si el cliente ya existe solo introduce la venta con los datos del juego y recupera los 
+     * datos del cliente de la tabla. No se pueden introducir las ventas totalmento iguales.
+     * @param evt 
+     */
     private void botonIntroducirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIntroducirActionPerformed
         if (nombreJuego.getText().isEmpty() || plataforma.getText().isEmpty() || precio.getText().isEmpty() || clienteNombre.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Introduzca todos los datos", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
            try {
-            //recogemos los datos que introducimos en variables
+           
             String isb = ISBNJuego.getText();
             String titulo = nombreJuego.getText();
             String plat = plataforma.getText();
@@ -185,8 +192,9 @@ public class panelIntroducir extends javax.swing.JPanel {
             String client = clienteNombre.getText();
             LocalDate fecha = LocalDate.now();
             Date date = Date.valueOf(fecha);
+            boolean compClie = civ.comprobarCliente(client);
             boolean com = civ.comprobarRepetidos(titulo, plat, perc, client);
-            //si se repiten avisamos al usuario
+           
             if (com == true) {
                 JOptionPane.showMessageDialog(null, "La venta ya está registrada", "Error", JOptionPane.INFORMATION_MESSAGE);
                 ISBNJuego.setText("");
@@ -194,7 +202,7 @@ public class panelIntroducir extends javax.swing.JPanel {
                 plataforma.setText("");
                 precio.setText("");
                 clienteNombre.setText("");
-            //sino, comporbamos los ultimos datos e introducimos los datos en sus respectivas tablas.
+            
             } else {
                 boolean comI = civ.comprobarISBN(isb);
                 if (comI) {
@@ -204,6 +212,11 @@ public class panelIntroducir extends javax.swing.JPanel {
                     plataforma.setText("");
                     precio.setText("");
                     clienteNombre.setText("");
+                }else if(compClie){
+                    int idC = civ.obtenerIdCliente(client);
+                    civ.introducirJuego(isb, titulo, plat, perc);
+                    civ.registrarVenta2(titulo, idC, perc, date);
+                    JOptionPane.showMessageDialog(null, "Venta registrada con exito", "Bien", JOptionPane.INFORMATION_MESSAGE);
                 }else{
                     civ.introducirJuego(isb, titulo, plat, perc);
                     civ.introducirCliente(client);
@@ -216,14 +229,17 @@ public class panelIntroducir extends javax.swing.JPanel {
                     clienteNombre.setText("");
                 }
             }
-            //manejo de excepciones
+            
         } catch (ClassCastException e) {
            e.printStackTrace();
         } 
         }
         
     }//GEN-LAST:event_botonIntroducirActionPerformed
-//metodos para los holder de los botones y el cursor, al entrar en el boton cambia el brillo del boton y el cursor se vuelve una mano y al salir vuelva a la normalidad 
+    /**
+     * estos botones cambian el hover de los botones.
+     * @param evt 
+     */
     private void botonIntroducirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonIntroducirMouseEntered
         botonIntroducir.setBackground(new Color(75, 72, 71));
     }//GEN-LAST:event_botonIntroducirMouseEntered

@@ -12,18 +12,21 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
+ *Este panel sirve para buscar todos los clientes que hayan comprado un juego indicado.
  * @author Diego Sanchez Gandara
  */
 public class panelBuscar extends javax.swing.JPanel {
+    /**
+     * Se llama al controlador especifico y a a un modelo para la tabla.
+     */
     private ControladorBuscarCliente cbc = new ControladorBuscarCliente();
     DefaultTableModel modelo = new DefaultTableModel();
     /**
-     * Creates new form panelBuscar
+     *Se incluyen los estilos de los botones como el redondeo, placeholder, etc.
      */
     public panelBuscar() {
         initComponents();
-        //configuracion de flatlaf
+        
         introducirNombreJuego.putClientProperty( "JComponent.roundRect", true );
         introducirNombreJuego.putClientProperty( "JTextField.placeholderText" , "ingrese el nombre del juego" );
         introducirNombreJuego.setToolTipText("Introduzca el nombre del juego");
@@ -141,7 +144,10 @@ public class panelBuscar extends javax.swing.JPanel {
                     .addComponent(jLabel1)))
         );
     }// </editor-fold>//GEN-END:initComponents
-    //boton para buscar
+    /**
+     * Este boton comrpueba que el campo del nombre no esta vacio y busca a traves del nombre del juego al cliente que lo compro.
+     * @param evt 
+     */
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
         if (introducirNombreJuego.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Introduzca un nombre de juego", "Error", JOptionPane.ERROR_MESSAGE);
@@ -163,7 +169,10 @@ public class panelBuscar extends javax.swing.JPanel {
         }
         
     }//GEN-LAST:event_botonBuscarActionPerformed
-    //boton para limpiar la tabla
+    /**
+     * este boton sirve para limpiar los datos que se estan mostrando en la tabla.
+     * @param evt 
+     */
     private void botonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLimpiarActionPerformed
         int numero = modelo.getRowCount();
         for (int i = numero - 1; i >= 0; i--) {
@@ -171,7 +180,10 @@ public class panelBuscar extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_botonLimpiarActionPerformed
 
-    //metodos para los holder de los botones y el cursor, al entrar en el boton cambia el brillo del boton y el cursor se vuelve una mano y al salir vuelva a la normalidad 
+    /**
+     * estos eventos cambian el holder de los botones.
+     * @param evt 
+     */
     private void botonLimpiarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonLimpiarMouseEntered
         botonLimpiar.setBackground(new Color(75, 72, 71));
     }//GEN-LAST:event_botonLimpiarMouseEntered
