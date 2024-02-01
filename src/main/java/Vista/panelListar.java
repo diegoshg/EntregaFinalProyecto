@@ -14,11 +14,15 @@ import javax.swing.table.DefaultTableModel;
 import model.Ventas;
 
 /**
- *
+ *Este panel lista los datos de los juegos y los clientes que estan envueltos en una venta y nos permite borrar la venta de ellos.
  * @author Diego Sanchez Gandara
  */
+
 public class panelListar extends javax.swing.JPanel {
-    //declaramos un modelo para la tabla y llamamos al controlador
+    /**
+     * Llamamos la modelo de la tabla y al controlador de el panel.
+     */
+    
     DefaultTableModel modelo = new DefaultTableModel();
     private ControladorListar cl = new ControladorListar();
     
@@ -27,7 +31,9 @@ public class panelListar extends javax.swing.JPanel {
      */
     public panelListar() {
         initComponents();
-        //funciones de flatlaf
+       /**
+        * Diseño de botones y tooltip
+        */
         botonRefrescar.putClientProperty( "JButton.buttonType" , "roundRect" );
         botonRefrescar.setToolTipText("Boton para refrescar la tabla");
         
@@ -141,7 +147,10 @@ public class panelListar extends javax.swing.JPanel {
                 .addComponent(botonRefrescar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
-    //boton para mostrar los datos en la tabla
+    /**
+     * Este evento llama al modelo para la tabla 
+     * @param evt 
+     */
     private void botonRefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRefrescarActionPerformed
        modelo = cl.recogerDatos(tablaFinal);
        cl.isCellEditable(tablaFinal.getRowCount(), tablaFinal.getColumnCount());
@@ -149,15 +158,26 @@ public class panelListar extends javax.swing.JPanel {
        
     }//GEN-LAST:event_botonRefrescarActionPerformed
 
-    //metodos para los holder de los botones y el cursor, al entrar en el boton cambia el brillo del boton y el cursor se vuelve una mano y al salir vuelva a la normalidad 
+   /**
+    * este evento refresca la informacion de la tabla
+    * @param evt 
+    */
     private void botonRefrescarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonRefrescarMouseEntered
         botonRefrescar.setBackground(new Color(75, 72, 71));
     }//GEN-LAST:event_botonRefrescarMouseEntered
 
+    /**
+     * Este evento cambia el hover del boton
+     * @param evt 
+     */
     private void botonRefrescarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonRefrescarMouseExited
         botonRefrescar.setBackground(new Color(0, 0, 0));
     }//GEN-LAST:event_botonRefrescarMouseExited
 
+    /**
+     * este evento sirve para el evento del boton en la tabla, para obtener el valor.
+     * @param evt 
+     */
     private void tablaFinalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaFinalMouseClicked
         int column = tablaFinal.getColumnModel().getColumnIndexAtX(evt.getX());
         int row = evt.getY()/tablaFinal.getRowHeight();

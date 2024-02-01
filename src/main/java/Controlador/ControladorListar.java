@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Clientes;
@@ -78,10 +79,7 @@ public class ControladorListar {
                 boton =  (JButton) r.getTableCellRendererComponent(tabla, boton, true, true, tabla.getRowCount(), 5);
                 boton.setToolTipText("Boton para eliminar un registro");
                 boton.setEnabled(true);
-                /*int pruebaIdJ = obtenerIdJuego(ISBN);
-                System.out.println(pruebaIdJ);
-                int pruebaUdC = obtenerIdCliente(nombreCliente);
-                System.out.println(pruebaUdC);*/
+                
                 
                 
                 
@@ -93,21 +91,21 @@ public class ControladorListar {
                    
                     model.addRow(new Object[]{ISBN, nombreJuego, plataforma, precio, nombreCliente, boton});
                     filasUnicas.add(filaUnica);
+                    
+                    /**
+                     * Esta accion es del boton de la tabla, busca el id del juego y el cliente de la fila de la
+                     * tabla seleccionada y luego busca el id de venta en base a los dos anteriores.
+                     * Despues, borra esa venta.
+                     */
                     boton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         System.out.println("--------------------");
                         int idJ = obtenerIdJuego(ISBN);
-                        String idJ1 = String.valueOf(idJ);
-                        System.out.println("ID Juego: " + idJ);  
-                       
                         int idC = obtenerIdCliente(nombreCliente);
-                        String idC1 = String.valueOf(idC);
-                        System.out.println("ID Cliente: " + idC);
                         int idV = comprobarVenta(idJ, idC);
-                        System.out.println(idV);
                         eliminarVenta(idV);
-                        System.out.println("Venta eliminada Correctamente");
+                        JOptionPane.showMessageDialog(null, "Venta eliminada con exito", "Bien", JOptionPane.INFORMATION_MESSAGE);
 
                     }
                   });
@@ -135,13 +133,24 @@ public class ControladorListar {
         return null;
     }
     
+    /**
+     * metodo para evitar que la tabla sea editable
+     * @param row fila de tabla
+     * @param column columna de la tabla
+     * @return true or false
+     */
     public boolean isCellEditable(int row, int column){
         return false;
     }
     
     
     
-    
+    /**
+     * Comprueba si existe una venta con los datos seleccionados en la tabla
+     * @param idJ se le pasa el id del juego
+     * @param idC se le pasa el id del cliente
+     * @return variable int
+     */
     public int comprobarVenta(int idJ, int idC){
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session sesion = sessionFactory.openSession();
@@ -165,6 +174,11 @@ public class ControladorListar {
     }
     
     
+    /**
+     * Metodo para obtener el id del juego de la tabla.
+     * @param isbn se le pasa el isbn del juego.
+     * @return variable int
+     */
    public int obtenerIdJuego(String isbn){
          SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session sesion = sessionFactory.openSession();
@@ -186,6 +200,11 @@ public class ControladorListar {
         return id;
    }
    
+   /**
+    * metodo para obtener el id del cliente de la tabla
+    * @param nombre_cliente se le pasa el nombre del cliente
+    * @return variable int
+    */
    public int obtenerIdCliente(String nombre_cliente){
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
