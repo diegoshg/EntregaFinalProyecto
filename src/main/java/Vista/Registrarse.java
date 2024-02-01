@@ -6,10 +6,11 @@ package Vista;
 
 
 import Controlador.ControladorCrearCuenta;
+import Controlador.ValidadorEmail;
 import Controlador.controladorLoggin;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.intellijthemes.FlatLightFlatIJTheme;
-import com.mycompany.flatlaffull.SVGImage;
+
 import java.awt.Color;
 import java.awt.Cursor;
 import javax.swing.JOptionPane;
@@ -26,7 +27,7 @@ public class Registrarse extends javax.swing.JFrame {
     private Loggin log;
     private Usuarios usu;
     private ControladorCrearCuenta clg = new ControladorCrearCuenta();
-   
+    private ValidadorEmail valid = new ValidadorEmail();
     /**
      * Aqui se incluyen los estilos de fuente y demas.
      * Creates new form Registrarse
@@ -223,7 +224,8 @@ public class Registrarse extends javax.swing.JFrame {
 
     /**
      * Este boton se utiliza para guardar los datos del usuario e introducir la cuenta en la base de datos.
-     * Primero comprueba si alguno de los campos esta vacio, luego si ya existe la cuenta y despues si todo es
+     * Primero comprueba si alguno de los campos esta vacio, luego si ya existe la cuenta, despues si estas introduciendo correctamente
+     * un email y despues si todo es
      * correcto introduce el usuario nuevo.
      * @param evt 
      */
@@ -239,7 +241,9 @@ public class Registrarse extends javax.swing.JFrame {
         if (user.isEmpty() || cont.isEmpty() || correo.isEmpty()) {
             JOptionPane.showMessageDialog(rootPane, "Introduzca todos los campos");
         }else{
-            try {
+            boolean validarM = valid.validarEmail(correo);
+            if (validarM) {
+                try {
                
             boolean comprueba = clg.comprobarMail(correo);
                 
@@ -259,6 +263,9 @@ public class Registrarse extends javax.swing.JFrame {
             
             }catch (ClassCastException e) {
                 e.printStackTrace();
+            }
+            }else{
+                JOptionPane.showMessageDialog(null, "Introduzca un email correcto","Error", JOptionPane.ERROR_MESSAGE);
             }
         }
         }
