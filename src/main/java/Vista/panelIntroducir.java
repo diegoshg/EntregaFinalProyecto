@@ -185,7 +185,6 @@ public class panelIntroducir extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Introduzca todos los datos", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
            try {
-           
             String isb = ISBNJuego.getText();
             String titulo = nombreJuego.getText();
             String plat = plataforma.getText();
@@ -205,37 +204,6 @@ public class panelIntroducir extends javax.swing.JPanel {
                 precio.setText("");
                 clienteNombre.setText("");       
             } else if(com && !compVenta){
-                boolean comC = civ.comprobarCliente(client);
-                boolean comI = civ.comprobarISBN(isb);
-                if (comI && !comC) {
-                    civ.introducirCliente(client);
-                    civ.registrarVenta3(idJ, client, perc, date);
-                    JOptionPane.showMessageDialog(null, "Venta registrada con exito", "Bien", JOptionPane.INFORMATION_MESSAGE);
-                    ISBNJuego.setText("");
-                    nombreJuego.setText("");
-                    plataforma.setText("");
-                    precio.setText("");
-                    clienteNombre.setText("");
-                }else if(comC && !comI){    
-                    civ.introducirJuego(isb, titulo, plat, perc);
-                    civ.registrarVenta2(titulo, idC, perc, date);
-                    JOptionPane.showMessageDialog(null, "Venta registrada con exito", "Bien", JOptionPane.INFORMATION_MESSAGE);
-                    ISBNJuego.setText("");
-                    nombreJuego.setText("");
-                    plataforma.setText("");
-                    precio.setText("");
-                    clienteNombre.setText("");
-                }else if(!comC && !comI){
-                    civ.introducirJuego(isb, titulo, plat, perc);
-                    civ.introducirCliente(client);
-                    civ.registrarVenta(titulo, client, perc, date);
-                    JOptionPane.showMessageDialog(null, "Venta registrada con exito", "Bien", JOptionPane.INFORMATION_MESSAGE);
-                    ISBNJuego.setText("");
-                    nombreJuego.setText("");
-                    plataforma.setText("");
-                    precio.setText("");
-                    clienteNombre.setText("");
-                }else if(comC && comI){
                     civ.registrarVenta4(idJ, idC, perc, date);
                     JOptionPane.showMessageDialog(null, "Venta registrada con exito", "Bien", JOptionPane.INFORMATION_MESSAGE);
                     ISBNJuego.setText("");
@@ -243,8 +211,39 @@ public class panelIntroducir extends javax.swing.JPanel {
                     plataforma.setText("");
                     precio.setText("");
                     clienteNombre.setText("");
+                }else{
+                    boolean comC = civ.comprobarCliente(client);
+                    boolean comI = civ.comprobarISBN(isb);
+                    if (comI && !comC) {
+                        civ.introducirCliente(client);
+                        civ.registrarVenta3(idJ, client, perc, date);
+                        JOptionPane.showMessageDialog(null, "Venta registrada con exito", "Bien", JOptionPane.INFORMATION_MESSAGE);
+                        ISBNJuego.setText("");
+                        nombreJuego.setText("");
+                        plataforma.setText("");
+                        precio.setText("");
+                        clienteNombre.setText("");
+                    }else if(comC && !comI){    
+                        civ.introducirJuego(isb, titulo, plat, perc);
+                        civ.registrarVenta2(titulo, idC, perc, date);
+                        JOptionPane.showMessageDialog(null, "Venta registrada con exito", "Bien", JOptionPane.INFORMATION_MESSAGE);
+                        ISBNJuego.setText("");
+                        nombreJuego.setText("");
+                        plataforma.setText("");
+                        precio.setText("");
+                        clienteNombre.setText("");
+                    }else if(!comC && !comI){
+                        civ.introducirJuego(isb, titulo, plat, perc);
+                        civ.introducirCliente(client);
+                        civ.registrarVenta(titulo, client, perc, date);
+                        JOptionPane.showMessageDialog(null, "Venta registrada con exito", "Bien", JOptionPane.INFORMATION_MESSAGE);
+                        ISBNJuego.setText("");
+                        nombreJuego.setText("");
+                        plataforma.setText("");
+                        precio.setText("");
+                        clienteNombre.setText("");
+                    }
                 }
-            }
             
         } catch (ClassCastException e) {
            e.printStackTrace();
