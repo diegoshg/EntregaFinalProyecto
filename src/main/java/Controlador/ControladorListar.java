@@ -4,6 +4,7 @@
  */
 package Controlador;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Dialog;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -55,7 +56,7 @@ public class ControladorListar {
             List<Object[]> resultado = query.list();
             tabla.setDefaultRenderer(Object.class, new Render());
             JButton boton; 
-            
+           
             DefaultTableModel model = new DefaultTableModel();
            
             model.addColumn("ISBN");
@@ -70,7 +71,7 @@ public class ControladorListar {
             Set<String> filasUnicas = new HashSet<>();
           for (Object[] row : resultado) {
                 boton = new JButton();
-               boton.putClientProperty(row, tabla);
+                boton.putClientProperty("JButton.trailingIcon", new FlatSVGIcon("img/papelera.svg",26,26));
                 String ISBN = (String) row[0];
                 String nombreJuego = (String) row[1];
                 String plataforma = (String) row[2];
@@ -78,6 +79,7 @@ public class ControladorListar {
                 String nombreCliente = (String) row[4];
                 boton =  (JButton) r.getTableCellRendererComponent(tabla, boton, true, true, tabla.getRowCount(), 5);
                 boton.setToolTipText("Boton para eliminar un registro");
+                
                 boton.setEnabled(true);
                 
                 

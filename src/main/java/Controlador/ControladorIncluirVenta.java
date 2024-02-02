@@ -152,6 +152,62 @@ public class ControladorIncluirVenta {
         }
     return id;
   }
+   
+   /**
+    * este metodo obtiene el id del juego introducido
+    * @param isbn recoge el isbn
+    * @return un id de tipo int
+    */
+   public int obtenerIdJuego(String isbn){
+         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session sesion = sessionFactory.openSession();
+        int id = -1;
+        try {
+            String sql = "from Juegos where isbn = :isbn";
+            Query q = sesion.createQuery(sql);
+            q.setParameter("isbn", isbn);
+            List<Juegos> lista = q.getResultList();
+
+            if (!lista.isEmpty()) {
+                id = lista.get(0).getIdJuego();
+            }
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            sesion.close();
+        }
+        return id;
+   }
+   
+   /**
+    * Este metodo comprueba si existe la venta con el id indicado.
+    * @param idJ recoge el id del juego
+    * @param idC recoge el id del cliente
+    * @return true o false
+    */
+   public boolean comprobarVenta(int idJ, int idC){
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session sesion = sessionFactory.openSession();
+        int idV = -1;
+        boolean existe = false;
+        try {
+           String sql = "from Ventas v where v.juegos.idJuego = :idJuego and v.clientes.idCliente = :idCliente";
+            Query q = sesion.createQuery(sql);
+            q.setParameter("idJuego", idJ);
+            q.setParameter("idCliente", idC);
+            List<Ventas> lista = q.getResultList();
+            for (Ventas ventas : lista) {
+                if (ventas != null) {
+                    idV = ventas.getIdVenta();
+                    existe = true;
+                }
+            }
+            
+        } catch (ObjectNotFoundException e) {
+            e.printStackTrace();
+        }
+        return existe;
+    }
   
   
   /**
@@ -286,6 +342,68 @@ public class ControladorIncluirVenta {
                    session.save(v);
                    transaction.commit();
                   }
+         } catch (HibernateException e) {
+             e.printStackTrace();
+         }
+    }
+    
+    
+    /**
+     * Este metodo controla si existe el juego, obtiene su id para meterlo en la base de datos y lo guarda.
+     * @param idJuego recoge el id del juegp
+     * @param nombreCliente recoge el nombre del cliente
+     * @param precioVenta recoge el precio de la venta
+     * @param fechaVenta recoge la fecha de la venta
+     */
+    public static void registrarVenta3(int idJuego, String nombreCliente , double precioVenta, Date fechaVenta) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+         try {
+             Juegos juego = session.get(Juegos.class, idJuego);
+                if (juego != null) {
+                    Query<Clientes> consultaClientes = session.createQuery("FROM Clientes c WHERE c.nombreCliente = :nombreCliente", Clientes.class);
+                    consultaClientes.setParameter("nombreCliente", nombreCliente);
+                    List<Clientes> listaClientes = consultaClientes.list();
+                    Clientes c = null;
+                      for (Clientes listaC : listaClientes) {
+                          c = listaC;
+                      }
+
+                   Ventas v = new Ventas();
+                   v.setJuegos(juego);
+                   v.setClientes(c);
+                   v.setPrecioVenta(precioVenta);
+                   v.setFechaVenta(Date.valueOf(LocalDate.now()));
+                   session.save(v);
+                   transaction.commit();
+                  }
+         } catch (HibernateException e) {
+             e.printStackTrace();
+         }
+    }
+    
+    
+    /**
+     * Este metodo controla si existen ambos casos en la base de datos y solo guarda la venta.
+     * @param idJuego recoge el id del juego
+     * @param nombreCliente recoge el nombre del cliente
+     * @param precioVenta recoge el precio de la venta
+     * @param fechaVenta recoge la fecha de la venta
+     */
+    public static void registrarVenta4(int idJuego, int idCliente , double precioVenta, Date fechaVenta) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+         try {
+             Juegos juego = session.get(Juegos.class, idJuego);
+             Clientes cliente = session.get(Clientes.class, idCliente);
+                   Ventas v = new Ventas();
+                   v.setJuegos(juego);
+                   v.setClientes(cliente);
+                   v.setPrecioVenta(precioVenta);
+                   v.setFechaVenta(Date.valueOf(LocalDate.now()));
+                   session.save(v);
+                   transaction.commit();
+                  
          } catch (HibernateException e) {
              e.printStackTrace();
          }

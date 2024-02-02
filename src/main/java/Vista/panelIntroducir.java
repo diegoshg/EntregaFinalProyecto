@@ -175,8 +175,9 @@ public class panelIntroducir extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
     /**
      * este boton introduce datos en la base de datos. Si ninguno de los datos existe lo crea todo, si existe el isbn del juego 
-     * indica que no se puede repetir, si el cliente ya existe solo introduce la venta con los datos del juego y recupera los 
-     * datos del cliente de la tabla. No se pueden introducir las ventas totalmento iguales.
+     * pero no el cliente ni la venta crea los ultimos, si el cliente ya existe solo introduce la venta con los datos del juego y la venta y recupera los 
+     * datos del cliente de la tabla.
+     * Y si no existe nada lo crea todo. No se pueden introducir las ventas totalmente iguales.
      * @param evt 
      */
     private void botonIntroducirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIntroducirActionPerformed
@@ -192,35 +193,50 @@ public class panelIntroducir extends javax.swing.JPanel {
             String client = clienteNombre.getText();
             LocalDate fecha = LocalDate.now();
             Date date = Date.valueOf(fecha);
-            boolean compClie = civ.comprobarCliente(client);
             boolean com = civ.comprobarRepetidos(titulo, plat, perc, client);
-           
-            if (com == true) {
+            int idJ = civ.obtenerIdJuego(isb);
+            int idC = civ.obtenerIdCliente(client);
+            boolean compVenta = civ.comprobarVenta(idJ, idC);
+            if (com && compVenta) {
                 JOptionPane.showMessageDialog(null, "La venta ya está registrada", "Error", JOptionPane.INFORMATION_MESSAGE);
                 ISBNJuego.setText("");
                 nombreJuego.setText("");
                 plataforma.setText("");
                 precio.setText("");
-                clienteNombre.setText("");
-            
-            } else {
+                clienteNombre.setText("");       
+            } else if(com && !compVenta){
+                boolean comC = civ.comprobarCliente(client);
                 boolean comI = civ.comprobarISBN(isb);
-                if (comI) {
-                    JOptionPane.showMessageDialog(null, "No se puede repetir el ISBN", "Error", JOptionPane.ERROR_MESSAGE);
+                if (comI && !comC) {
+                    civ.introducirCliente(client);
+                    civ.registrarVenta3(idJ, client, perc, date);
+                    JOptionPane.showMessageDialog(null, "Venta registrada con exito", "Bien", JOptionPane.INFORMATION_MESSAGE);
                     ISBNJuego.setText("");
                     nombreJuego.setText("");
                     plataforma.setText("");
                     precio.setText("");
                     clienteNombre.setText("");
-                }else if(compClie){
-                    int idC = civ.obtenerIdCliente(client);
+                }else if(comC && !comI){    
                     civ.introducirJuego(isb, titulo, plat, perc);
                     civ.registrarVenta2(titulo, idC, perc, date);
                     JOptionPane.showMessageDialog(null, "Venta registrada con exito", "Bien", JOptionPane.INFORMATION_MESSAGE);
-                }else{
+                    ISBNJuego.setText("");
+                    nombreJuego.setText("");
+                    plataforma.setText("");
+                    precio.setText("");
+                    clienteNombre.setText("");
+                }else if(!comC && !comI){
                     civ.introducirJuego(isb, titulo, plat, perc);
                     civ.introducirCliente(client);
                     civ.registrarVenta(titulo, client, perc, date);
+                    JOptionPane.showMessageDialog(null, "Venta registrada con exito", "Bien", JOptionPane.INFORMATION_MESSAGE);
+                    ISBNJuego.setText("");
+                    nombreJuego.setText("");
+                    plataforma.setText("");
+                    precio.setText("");
+                    clienteNombre.setText("");
+                }else if(comC && comI){
+                    civ.registrarVenta4(idJ, idC, perc, date);
                     JOptionPane.showMessageDialog(null, "Venta registrada con exito", "Bien", JOptionPane.INFORMATION_MESSAGE);
                     ISBNJuego.setText("");
                     nombreJuego.setText("");
