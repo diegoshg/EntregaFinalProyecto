@@ -24,6 +24,9 @@ public class panelModificar extends javax.swing.JPanel {
         jLabel2.putClientProperty("FlatLaf.style", "font: $h2.font");
         jLabel3.putClientProperty("FlatLaf.style", "font: $h2.font");
         botonModificar.putClientProperty( "JButton.buttonType" , "roundRect" );
+        ISBNJuego.putClientProperty( "JComponent.roundRect", true );
+        juegoNombre.putClientProperty( "JComponent.roundRect", true );
+        precioNuevo.putClientProperty( "JComponent.roundRect", true );
         juegoNombre.setToolTipText("Introduzca el nombre del juego");
         precioNuevo.setToolTipText("Introduzca el nuevo precio");
         ISBNJuego.setToolTipText("Introduzca el ISBN del juego");
@@ -96,9 +99,6 @@ public class panelModificar extends javax.swing.JPanel {
                 .addGap(55, 55, 55)
                 .addComponent(juegoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(102, 102, 102)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(55, 55, 55)
                 .addComponent(ISBNJuego, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
@@ -112,6 +112,10 @@ public class panelModificar extends javax.swing.JPanel {
                 .addComponent(botonModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(78, 78, 78))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,9 +124,9 @@ public class panelModificar extends javax.swing.JPanel {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addComponent(juegoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addGap(2, 2, 2)
                 .addComponent(ISBNJuego, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)

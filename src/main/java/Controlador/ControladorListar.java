@@ -9,9 +9,12 @@ import java.awt.Dialog;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -71,9 +74,10 @@ public class ControladorListar {
             Set<String> filasUnicas = new HashSet<>();
           for (Object[] row : resultado) {
                 boton = new JButton();
-                boton.putClientProperty("JButton.trailingIcon", new FlatSVGIcon("img/papelera.svg",26,26));
+                boton.setIcon(new FlatSVGIcon("img/basura.svg",13,10));
+               
                 String ISBN = (String) row[0];
-                String nombreJuego = (String) row[1];
+                String nombreJuego = (String) row[1];   
                 String plataforma = (String) row[2];
                 Double precio = (Double) row[3];
                 String nombreCliente = (String) row[4];

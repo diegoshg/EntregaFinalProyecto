@@ -30,10 +30,6 @@
               <Component id="juegoNombre" min="-2" pref="270" max="-2" attributes="0"/>
           </Group>
           <Group type="102" attributes="0">
-              <EmptySpace min="102" pref="102" max="-2" attributes="0"/>
-              <Component id="jLabel2" min="-2" pref="160" max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" attributes="0">
               <EmptySpace min="55" pref="55" max="-2" attributes="0"/>
               <Component id="ISBNJuego" min="-2" pref="270" max="-2" attributes="0"/>
           </Group>
@@ -51,6 +47,11 @@
               <EmptySpace min="50" pref="50" max="-2" attributes="0"/>
               <Component id="jLabel4" min="-2" pref="130" max="-2" attributes="0"/>
           </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jLabel2" min="-2" pref="160" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -60,9 +61,9 @@
               <Component id="jLabel1" min="-2" pref="30" max="-2" attributes="0"/>
               <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
               <Component id="juegoNombre" min="-2" pref="50" max="-2" attributes="0"/>
-              <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jLabel2" min="-2" pref="30" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
               <Component id="ISBNJuego" min="-2" pref="50" max="-2" attributes="0"/>
               <EmptySpace min="15" pref="15" max="-2" attributes="0"/>
               <Component id="jLabel3" min="-2" pref="30" max="-2" attributes="0"/>
