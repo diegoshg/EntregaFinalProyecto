@@ -79,7 +79,7 @@ public class panelListar extends javax.swing.JPanel {
         });
 
         tablaFinal.setBackground(new java.awt.Color(255, 255, 255));
-        tablaFinal.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        tablaFinal.setFont(new java.awt.Font("Dialog", 0, 8)); // NOI18N
         tablaFinal.setForeground(new java.awt.Color(0, 0, 0));
         tablaFinal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

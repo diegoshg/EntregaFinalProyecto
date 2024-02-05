@@ -192,58 +192,55 @@ public class panelIntroducir extends javax.swing.JPanel {
             String client = clienteNombre.getText();
             LocalDate fecha = LocalDate.now();
             Date date = Date.valueOf(fecha);
-            boolean com = civ.comprobarRepetidos(titulo, plat, perc, client);
             int idJ = civ.obtenerIdJuego(isb);
             int idC = civ.obtenerIdCliente(client);
             boolean compVenta = civ.comprobarVenta(idJ, idC);
-            if (com && compVenta) {
-                JOptionPane.showMessageDialog(null, "La venta ya está registrada", "Error", JOptionPane.INFORMATION_MESSAGE);
+            boolean comC = civ.comprobarCliente(client);
+            boolean comI = civ.comprobarISBN(isb);
+            if (compVenta) {
+                 JOptionPane.showMessageDialog(null, "La venta ya está registrada", "Error", JOptionPane.INFORMATION_MESSAGE);
+                 ISBNJuego.setText("");
+                 nombreJuego.setText("");
+                 plataforma.setText("");
+                 precio.setText("");
+                 clienteNombre.setText("");      
+            }else if(comC && comI && !compVenta){
+                civ.registrarVenta4(idJ, idC, perc, date);
+                JOptionPane.showMessageDialog(null, "Venta registrada con exito", "Bien", JOptionPane.INFORMATION_MESSAGE);
                 ISBNJuego.setText("");
                 nombreJuego.setText("");
                 plataforma.setText("");
                 precio.setText("");
-                clienteNombre.setText("");       
-            } else if(com && !compVenta){
-                    civ.registrarVenta4(idJ, idC, perc, date);
-                    JOptionPane.showMessageDialog(null, "Venta registrada con exito", "Bien", JOptionPane.INFORMATION_MESSAGE);
-                    ISBNJuego.setText("");
-                    nombreJuego.setText("");
-                    plataforma.setText("");
-                    precio.setText("");
-                    clienteNombre.setText("");
-                }else{
-                    boolean comC = civ.comprobarCliente(client);
-                    boolean comI = civ.comprobarISBN(isb);
-                    if (comI && !comC) {
-                        civ.introducirCliente(client);
-                        civ.registrarVenta3(idJ, client, perc, date);
-                        JOptionPane.showMessageDialog(null, "Venta registrada con exito", "Bien", JOptionPane.INFORMATION_MESSAGE);
-                        ISBNJuego.setText("");
-                        nombreJuego.setText("");
-                        plataforma.setText("");
-                        precio.setText("");
-                        clienteNombre.setText("");
-                    }else if(comC && !comI){    
-                        civ.introducirJuego(isb, titulo, plat, perc);
-                        civ.registrarVenta2(titulo, idC, perc, date);
-                        JOptionPane.showMessageDialog(null, "Venta registrada con exito", "Bien", JOptionPane.INFORMATION_MESSAGE);
-                        ISBNJuego.setText("");
-                        nombreJuego.setText("");
-                        plataforma.setText("");
-                        precio.setText("");
-                        clienteNombre.setText("");
-                    }else if(!comC && !comI){
-                        civ.introducirJuego(isb, titulo, plat, perc);
-                        civ.introducirCliente(client);
-                        civ.registrarVenta(titulo, client, perc, date);
-                        JOptionPane.showMessageDialog(null, "Venta registrada con exito", "Bien", JOptionPane.INFORMATION_MESSAGE);
-                        ISBNJuego.setText("");
-                        nombreJuego.setText("");
-                        plataforma.setText("");
-                        precio.setText("");
-                        clienteNombre.setText("");
-                    }
-                }
+                clienteNombre.setText("");
+            }else if(!comC && comI && !compVenta){
+                civ.introducirCliente(client);
+                civ.registrarVenta3(idJ, client, perc, date);
+                JOptionPane.showMessageDialog(null, "Venta registrada con exito", "Bien", JOptionPane.INFORMATION_MESSAGE);
+                ISBNJuego.setText("");
+                nombreJuego.setText("");
+                plataforma.setText("");
+                precio.setText("");
+                clienteNombre.setText("");
+            }else if(!comI && comC && !compVenta){
+                civ.introducirJuego(isb, titulo, plat, perc);
+                civ.registrarVenta2(titulo, idC, perc, date);
+                JOptionPane.showMessageDialog(null, "Venta registrada con exito", "Bien", JOptionPane.INFORMATION_MESSAGE);
+                ISBNJuego.setText("");
+                nombreJuego.setText("");
+                plataforma.setText("");
+                precio.setText("");
+                clienteNombre.setText("");
+            }else if(!comC && !comI && !compVenta){
+                civ.introducirJuego(isb, titulo, plat, perc);
+                civ.introducirCliente(client);
+                civ.registrarVenta(titulo, client, perc, date);
+                JOptionPane.showMessageDialog(null, "Venta registrada con exito", "Bien", JOptionPane.INFORMATION_MESSAGE);
+                ISBNJuego.setText("");
+                nombreJuego.setText("");
+                plataforma.setText("");
+                precio.setText("");
+                clienteNombre.setText("");
+            }
             
         } catch (ClassCastException e) {
            e.printStackTrace();
